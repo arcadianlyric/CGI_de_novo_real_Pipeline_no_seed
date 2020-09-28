@@ -1,0 +1,67 @@
+samples:
+    # Path to the split fastqs for assembly
+    fastq: [split_read.1.fq.gz, split_read.2.fq.gz]
+    # date, this currently doesn't do anything
+    date: "20200101"
+    # these likely don't need to change but provide the haplotypes
+    haps: [0, 1]
+software:
+    # path to minimap
+    minimap: "/home/eanderson/minimap2-2.16_x64-linux/minimap2"
+    # path to quast
+    quast: "/research/rv-02/home/qmao/Scripts/python_virtualenv/quast_v5/env/bin/quast.py"
+    # path to sam-flt.js
+    sam_flt: "/home/eanderson/CHM-eval/dip-call/sam-flt.js"
+    # path to vcf-pair.js
+    vcf_pair: "/home/eanderson/CHM-eval/dip-call/vcf-pair.js"
+    # path to htsbox, extension of htslib
+    htsbox: "/home/eanderson/CHM-eval.kit/htsbox"
+    # path to bcftools
+    bcftools: "/opt/cgi-tools/bin/bcftools"
+    # path to bedtools
+    bedtools: "/home/eanderson/bedtools2/bin/bedtools"
+    # path to rtg for short variant eval
+    rtg: "/research/rv-02/home/qmao/Scripts/rtg-tools-3.8.4/rtg"
+    # path to paftools, or if you have k8 and paftools in your path just paftools.js
+    paftools: "paftools.js"
+    # Path to the phasing script
+    phase_script: "/research/rv-02/home/eanderson/CGI_de_novo_real_Pipeline/phase_block_n50.py"
+    # Path to the scaffolding script
+    scaffold: "/research/rv-02/home/eanderson/CGI_de_novo_real_Pipeline/scaffold_contigs.py"
+params:
+    # platform for RG in bam
+    platform: "bgi-seq"
+    # sentieon_install, update when new versions available
+    sentieon_install: "/opt/sentieon-genomics-cgv0.5-201911"
+    # path to licensing server
+    sentieon_license: "sentieon-license-server.completegenomics.com:8991"
+    # range barcode param
+    range_barcode: 5000
+    # path to seed lib
+    seed_lib: "/research/rv-02/home/eanderson/Resources_And_DBs/Sentieon_Seed_Lib/Sentieon_DB-iter0.fa"
+    # min_jaccard index parameter
+    min_jaccard: 0.02
+    # minimum contig parameter for quast
+    min_contig: 10000
+    # read_len, update appropriately
+    read_len: 200
+    # is female, True or False depending on sample
+    is_female: True
+    # reference to evaluate against
+    ref: "/research/rv-02/home/qmao/DBs/hg38_fa_from_NCBI/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa"
+benchmark:
+    # Other benchmarks should be organized with the same names under HG00N
+    # path to benchmark snp
+    benchmark_snp: "/research/rv-02/home/eanderson/Resources_And_DBs/hg38_GIAB/HG001/benchmark_snp.chrfix.vcf.gz"
+    # path to benchmark indel
+    benchmark_indel: "/research/rv-02/home/eanderson/Resources_And_DBs/hg38_GIAB/HG001/benchmark_indel.chrfix.vcf.gz"
+    # path to high confidence bed file
+    bedfile: "/research/rv-02/home/eanderson/Resources_And_DBs/hg38_GIAB/HG001/benchmark_bed.chrfix.bed"
+    # reference sdf, update if you change references
+    ref_sdf: "/research/rv-02/home/qmao/DBs/hg38_benchmark_ref/GRCh38.sdf"
+threads:
+    # various thread parameters
+    # if you set snakemake -j less than these they'll be limited to the value of -j
+    assembly: 100
+    quast: 40
+    minimap: 12
