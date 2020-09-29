@@ -1,6 +1,7 @@
 # CGI\_de\_novo\_real\_Pipeline
 
 This pipeline is for Sentieon's assembly software for use with real sample data.
+This pipeline uses Sentieon's software designed for use without a seed library.
 
 ## Directory Contents
 
@@ -17,7 +18,7 @@ This pipeline is for Sentieon's assembly software for use with real sample data.
     - More info can be found in the comments and below
 - phase\_block\_n50.py
     - Script to calculate the phase block N50
-    - (1) Sum the size of all contigs by PID for all PID >= 0. 
+    - (1) Sum the size of all contigs by PID for all PID >= 0.
     - (2) For each contig with a PID equal to -1, add the length of this contig to the larger adjacent PID within the scaffold.
     - (3) Order the PIDs from smallest to largest and calculate the phase N50 as usual.)))
 - scaffold\_contigs.py
@@ -41,7 +42,7 @@ From their run some version of the following.
 # -k specifies keep going with independent jobs after an error
 # -s specifies the location of the snakefile
 # you can also copy the snakefile to the current directory and omit -s
-snakemake -j 20 -k -s /research/rv-02/home/eanderson/CGI_de_novo_real_Pipeline/Snakefile 2>&1 | tee snakemake.err.txt
+snakemake -j 20 -k -s /research/rv-02/home/eanderson/CGI_de_novo_real_Pipeline_no_seed/Snakefile 2>&1 | tee snakemake.err.txt
 ```
 
 ## Modifying config.yaml
