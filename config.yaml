@@ -29,14 +29,24 @@ software:
     # Path to the scaffolding script
     scaffold: "/research/rv-02/home/eanderson/CGI_de_novo_real_Pipeline/scaffold_contigs.py"
 params:
+    # a fast local disk for Sentieon
+    tmp_dir: "/dev/shm"
     # platform for RG in bam
     platform: "bgi-seq"
     # sentieon_install, update when new versions available
-    sentieon_install: "/opt/sentieon-genomics-cgv0.5-201911"
+    sentieon_install: "/opt/sentieon-genomics-cgv0.6-201911"
     # path to licensing server
     sentieon_license: "sentieon-license-server.completegenomics.com:8991"
-    # range barcode param
-    range_barcode: 5000
+    # chunk param
+    chunk: 10000000
+    # abundance minimum paramater
+    amin: 6
+    # kmer size parameter
+    ksize: 61
+    # seed sizes parameter
+    seed_sizes: [1001, 501]
+    # tracegraph size
+    tracegraph_size: 500
     # path to seed lib
     seed_lib: "/research/rv-02/home/eanderson/Resources_And_DBs/Sentieon_Seed_Lib/Sentieon_DB-iter0.fa"
     # min_jaccard index parameter
@@ -49,6 +59,20 @@ params:
     is_female: True
     # reference to evaluate against
     ref: "/research/rv-02/home/qmao/DBs/hg38_fa_from_NCBI/GCA_000001405.15_GRCh38_no_alt_analysis_set.fa"
+atropos:
+    # atropos adapters, leave blank if the adapter is not present
+    # R1 5 prime
+    adapter: "CTGTCTCTTATACACATCTTAGGAAGACAAGCACTGACGNNNNNNNNNNGATCACCAAGGATCGCCATAGTCCATGCT"
+    # R2 5 prime
+    adapter2: "TCTGCTGAGTCGAGAACGTCTCTGTGAGCCAAGGAGTTGCTCTGG"
+    # R1 3 prime
+    front: "TGAGATCAAGTCATATTCAACTCCAAAACACTAACCAACCTTCTTCTTGCTTCTCAAAGCTTTCATGGTGTAGCCAAAG"
+    # R2 3 prime
+    front2:
+    # minimum length to keep read pair
+    min_len: 70
+    # path to virtualenv python
+    vir_env: "/home-02/eanderson/Virtual_Envs/General3/bin/activate"
 benchmark:
     # Other benchmarks should be organized with the same names under HG00N
     # path to benchmark snp
@@ -62,6 +86,7 @@ benchmark:
 threads:
     # various thread parameters
     # if you set snakemake -j less than these they'll be limited to the value of -j
+    atropos: 100
     assembly: 100
     quast: 40
     minimap: 12
