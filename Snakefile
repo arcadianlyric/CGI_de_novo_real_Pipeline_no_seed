@@ -5,7 +5,7 @@
 
 configfile: "config.yaml"
 # These export the sentieon environment variables for all commands
-shell.prefix('export SENTIEON_INSTALL={}; export SENTIEON_LICENSE={}; export SENTIEON_TMPDIR={}'.format(config['params']['sentieon_install'], config['params']['sentieon_license'], config['params']['tmp_dir']))
+shell.prefix('export SENTIEON_INSTALL={}; export SENTIEON_LICENSE={}; export SENTIEON_TMPDIR={};'.format(config['params']['sentieon_install'], config['params']['sentieon_license'], config['params']['tmp_dir']))
 
 # Rule for run all, could be shortened with a function
 # These are the targets we want to make
@@ -75,8 +75,9 @@ rule atropos:
     threads:
         config['threads']['atropos']
     run:
-        command = ['source', params.vir_env + ';', 'atropos', 'trim',
-                   '-m', params.min_len, '-pe1', input[0], '-pe2', input[1]
+        virtual_env = str(params.vir_env) + ';'
+        command = ['source', virtual_env, 'atropos', 'trim',
+                   '-m', params.min_len, '-pe1', input[0], '-pe2', input[1],
                    '-L', '/dev/stdout']
 
         # if adapters are included, add them to the command
@@ -178,7 +179,8 @@ rule assign_reads_to_unitigs:
 
 
 def get_seed_sizes():
-    return ",".join(config['params']['seed_sizes'])
+    seed_sizes = [str(x) for x in config['params']['seed_sizes']]
+    return ",".join(seed_sizes)
 
 
 # perform de novo assembly
@@ -191,7 +193,7 @@ rule de_novo_assembly:
         phase_contigs = expand("Assembly/LinkedReads.seed.phase_{hap}.fasta", hap=[0,1])
     params:
         ksize = config['params']['ksize'],
-        trace_size = config['params']['trace_size'],
+        trace_size = config['params']['tracegraph_size'],
         read_len = config['params']['read_len'],
         seed_sizes = get_seed_sizes()
     threads:
@@ -199,8 +201,8 @@ rule de_novo_assembly:
     log:
         "Assembly/LinkedReadsSeed.log"
     shell:
-        "$SENTIEON_INSTALL/bin/sentieon driver --algo LinkedReadsDeNovo trace "
-            "-t {threads} "
+        "$SENTIEON_INSTALL/bin/sentieon driver -t {threads} "
+            "--algo LinkedReadsDeNovo trace "
             "-i {input.bam} "
             "--bcalm_untig_graph {input.fasta} "
             "--untig_kmer_size {params.ksize} "
