@@ -1,4 +1,6 @@
 samples:
+    # Sample name
+    sample: "ssbc"
     # Path to the split fastqs for assembly
     fastq: [split_read.1.fq.gz, split_read.2.fq.gz]
     # date, this currently doesn't do anything

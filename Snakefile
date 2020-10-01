@@ -76,8 +76,8 @@ rule atropos:
         config['threads']['atropos']
     run:
         virtual_env = str(params.vir_env) + ';'
-        command = ['source', virtual_env, 'atropos', 'trim',
-                   '-m', params.min_len, '-pe1', input[0], '-pe2', input[1],
+        command = ['source', virtual_env, 'atropos', 'trim', '-T', str(threads)
+                   '-m', str(params.min_len), '-pe1', input[0], '-pe2', input[1],
                    '-L', '/dev/stdout']
 
         # if adapters are included, add them to the command
@@ -93,7 +93,7 @@ rule atropos:
         if params.front2:
             command.extend(['--front2', params.front2])
 
-        command.extend(['|', 'gzip', '-c', '>', output])
+        command.extend(['|', 'gzip', '-c', '>', output[0]])
         # run the command
         shell(" ".join(command))
 
@@ -155,7 +155,7 @@ rule assign_reads_to_unitigs:
     params:
         chunk = config['params']['chunk'],
         ksize = config['params']['ksize'],
-        readgroup = r'@RG\tID:{0}\tSM:{0}\tPL:{1}'.format(config['samples']['date'],
+        readgroup = r'@RG\\tID:{0}\\tSM:{0}\\tPL:{1}'.format(config['samples']['sample'],
                                                           config['params']['platform'])
     log:
         bwa = "Assembly/bwa.reads.err",
@@ -163,7 +163,7 @@ rule assign_reads_to_unitigs:
     threads:
         config['threads']['assembly']
     shell:
-        "$SENTIEON_INSTALL/bin/sentieon bwa "
+        "$SENTIEON_INSTALL/bin/sentieon bwa mem "
             "-R {params.readgroup} "
             "-t {threads} "
             "-K {params.chunk} "
