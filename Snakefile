@@ -76,7 +76,7 @@ rule atropos:
         config['threads']['atropos']
     run:
         virtual_env = str(params.vir_env) + ';'
-        command = ['source', virtual_env, 'atropos', 'trim', '-T', str(threads)
+        command = ['source', virtual_env, 'atropos', 'trim', '-T', str(threads),
                    '-m', str(params.min_len), '-pe1', input[0], '-pe2', input[1],
                    '-L', '/dev/stdout']
 
