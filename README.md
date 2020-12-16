@@ -75,3 +75,6 @@ snakemake -j 20 -k -s /research/rv-02/home/eanderson/CGI_de_novo_real_Pipeline_n
     - These are various tools used by the pipeline
     - Specify the threads as you feel is appropriate
     - If you give the main snakemake command (run\_snakemake.sh) fewer threads, all tools will be capped at that number
+
+#### TODO
+adapter filter (with atropos) needs improvements. 
